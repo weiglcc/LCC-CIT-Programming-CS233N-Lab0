@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="boardForm.resx">
       <DependentUpon>boardForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,6 +79,62 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Cards\black_back.jpg" />
+    <Content Include="Cards\card2c.jpg" />
+    <Content Include="Cards\card2d.jpg" />
+    <Content Include="Cards\card2h.jpg" />
+    <Content Include="Cards\card2s.jpg" />
+    <Content Include="Cards\card3c.jpg" />
+    <Content Include="Cards\card3d.jpg" />
+    <Content Include="Cards\card3h.jpg" />
+    <Content Include="Cards\card3s.jpg" />
+    <Content Include="Cards\card4c.jpg" />
+    <Content Include="Cards\card4d.jpg" />
+    <Content Include="Cards\card4h.jpg" />
+    <Content Include="Cards\card4s.jpg" />
+    <Content Include="Cards\card5c.jpg" />
+    <Content Include="Cards\card5d.jpg" />
+    <Content Include="Cards\card5h.jpg" />
+    <Content Include="Cards\card5s.jpg" />
+    <Content Include="Cards\card6c.jpg" />
+    <Content Include="Cards\card6d.jpg" />
+    <Content Include="Cards\card6h.jpg" />
+    <Content Include="Cards\card6s.jpg" />
+    <Content Include="Cards\card7c.jpg" />
+    <Content Include="Cards\card7d.jpg" />
+    <Content Include="Cards\card7h.jpg" />
+    <Content Include="Cards\card7s.jpg" />
+    <Content Include="Cards\card8c.jpg" />
+    <Content Include="Cards\card8d.jpg" />
+    <Content Include="Cards\card8h.jpg" />
+    <Content Include="Cards\card8s.jpg" />
+    <Content Include="Cards\card9c.jpg" />
+    <Content Include="Cards\card9d.jpg" />
+    <Content Include="Cards\card9h.jpg" />
+    <Content Include="Cards\card9s.jpg" />
+    <Content Include="Cards\cardac.jpg" />
+    <Content Include="Cards\cardad.jpg" />
+    <Content Include="Cards\cardah.jpg" />
+    <Content Include="Cards\cardas.jpg" />
+    <Content Include="Cards\CardBack.jpg" />
+    <Content Include="Cards\cardjc.jpg" />
+    <Content Include="Cards\cardjd.jpg" />
+    <Content Include="Cards\cardjh.jpg" />
+    <Content Include="Cards\cardjs.jpg" />
+    <Content Include="Cards\cardkc.jpg" />
+    <Content Include="Cards\cardkd.jpg" />
+    <Content Include="Cards\cardkh.jpg" />
+    <Content Include="Cards\cardks.jpg" />
+    <Content Include="Cards\cardqc.jpg" />
+    <Content Include="Cards\cardqd.jpg" />
+    <Content Include="Cards\cardqh.jpg" />
+    <Content Include="Cards\cardqs.jpg" />
+    <Content Include="Cards\cardtc.jpg" />
+    <Content Include="Cards\cardtd.jpg" />
+    <Content Include="Cards\cardth.jpg" />
+    <Content Include="Cards\cardts.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

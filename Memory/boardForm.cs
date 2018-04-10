@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Memory
@@ -18,12 +12,14 @@ namespace Memory
         }
 
         #region Instance Variables
-        const int NOT_PICKED_YET = -1;
 
-        int firstCardNumber = NOT_PICKED_YET;
-        int secondCardNumber = NOT_PICKED_YET;
-        int matches = 0;
-        #endregion
+        private const int NOT_PICKED_YET = -1;
+
+        private int firstCardNumber = NOT_PICKED_YET;
+        private int secondCardNumber = NOT_PICKED_YET;
+        private int matches = 0;
+
+        #endregion Instance Variables
 
         #region Methods
 
@@ -37,7 +33,7 @@ namespace Memory
         }
 
         // This method gets the filename for the image displayed in a picture box given it's number
-        // It takes an integer as it's parameter and returns a string containing the 
+        // It takes an integer as it's parameter and returns a string containing the
         // filename for the image in the corresponding picture box
         private string GetCardFilename(int i)
         {
@@ -68,7 +64,17 @@ namespace Memory
         // TODO:  students should write this one
         private bool IsMatch(int index1, int index2)
         {
-            return true;
+            string firstCardValue = GetCardValue(index1);
+            string secondCardalue = GetCardValue(index2);
+            string firstCardSuit = GetCardSuit(index1);
+            string secondCardSuit = GetCardSuit(index2);
+            bool isSameValue = firstCardValue == secondCardalue;
+            bool isSameColor =
+                (firstCardSuit == "s" && secondCardSuit == "c") ||
+                (firstCardSuit == "c" && secondCardSuit == "s") ||
+                (firstCardSuit == "d" && secondCardSuit == "h") ||
+                (firstCardSuit == "h" && secondCardSuit == "d");
+            return isSameValue && isSameColor;
         }
 
         // This method fills each picture box with a filename
@@ -83,6 +89,7 @@ namespace Memory
                 for (int value = 0; value <= 4; value++)
                 {
                     SetCardFilename(i, "card" + values[value] + suits[suit] + ".jpg");
+                    LoadCard(i);
                     i++;
                 }
             }
@@ -91,6 +98,19 @@ namespace Memory
         // TODO:  students should write this one
         private void ShuffleCards()
         {
+            Random random = new Random();
+            for (int i = 1; i <= 20; i++)
+            {
+                PictureBox card = GetCard(i);
+                Image tempImg = card.Image;
+                object tempTag = card.Tag;
+                int number = random.Next(i, 20);
+                PictureBox target = GetCard(number);
+                card.Image = target.Image;
+                card.Tag = target.Tag;
+                target.Image = tempImg;
+                target.Tag = tempTag;
+            }
         }
 
         // This method loads (shows) an image in a picture box.  Assumes that filenames
@@ -112,78 +132,107 @@ namespace Memory
         // shows (loads) the backs of all of the cards
         private void LoadAllCardBacks()
         {
-
+            for (int i = 1; i <= 20; i++)
+            {
+                LoadCardBack(i);
+            }
         }
 
         // Hides a picture box
         private void HideCard(int i)
         {
-
+            PictureBox card = GetCard(i);
+            card.Hide();
         }
 
-        private void HideAllCards()
-        {
-
-        }
+        //private void HideAllCards()
+        //{
+        //    for (int i = 1; i <= 20; i++)
+        //    {
+        //        HideCard(i);
+        //    }
+        //}
 
         // shows a picture box
         private void ShowCard(int i)
         {
-
+            PictureBox card = GetCard(i);
+            card.Show();
         }
 
         private void ShowAllCards()
         {
-
+            for (int i = 1; i <= 20; i++)
+            {
+                ShowCard(i);
+            }
         }
 
         // disables a picture box
         private void DisableCard(int i)
         {
-
+            PictureBox card = GetCard(i);
+            card.Enabled = false;
         }
 
         private void DisableAllCards()
         {
-
+            for (int i = 1; i <= 20; i++)
+            {
+                DisableCard(i);
+            }
         }
 
         private void EnableCard(int i)
         {
-
+            PictureBox card = GetCard(i);
+            card.Enabled = true;
         }
 
         private void EnableAllCards()
         {
-
+            for (int i = 1; i <= 20; i++)
+            {
+                EnableCard(i);
+            }
         }
-    
+
         private void EnableAllVisibleCards()
         {
-
+            for (int i = 1; i <= 20; i++)
+            {
+                PictureBox card = GetCard(i);
+                if (card.Visible)
+                {
+                    card.Enabled = true;
+                }
+            }
         }
 
-        #endregion
+        #endregion Methods
 
         #region EventHandlers
+
         private void boardForm_Load(object sender, EventArgs e)
         {
-            /* 
+            /*
              * Fill the picture boxes with filenames
              * Shuffle the cards
-             * Load all of the card backs - 
+             * Load all of the card backs -
              *      While you're testing you might want to load all of card faces
              *      to make sure that the cards are loaded successfully and that
              *      they're shuffled.  If you get all 2s, something is wrong.
-            */
+             */
+            FillCardFilenames();
+            ShuffleCards();
+            LoadAllCardBacks();
         }
 
         private void card_Click(object sender, EventArgs e)
         {
             PictureBox card = (PictureBox)sender;
             int cardNumber = int.Parse(card.Name.Substring(4));
-
-            /* 
+            /*
              * if the first card isn't picked yet
              *      save the first card index
              *      load the card
@@ -194,7 +243,21 @@ namespace Memory
              *      disable all of the cards
              *      start the flip timer
              *  end if
-            */
+             */
+            if (firstCardNumber == NOT_PICKED_YET)
+            {
+                firstCardNumber = cardNumber;
+                LoadCard(firstCardNumber);
+                DisableCard(firstCardNumber);
+                return;
+            }
+            else
+            {
+                secondCardNumber = cardNumber;
+                LoadCard(secondCardNumber);
+                DisableAllCards();
+                flipTimer.Start();
+            }
         }
 
         private void flipTimer_Tick(object sender, EventArgs e)
@@ -220,7 +283,37 @@ namespace Memory
              *      enable all of the cards left on the board
              * end if
              */
+            flipTimer.Stop();
+            if (IsMatch(firstCardNumber, secondCardNumber))
+            {
+                matches++;
+                HideCard(firstCardNumber);
+                HideCard(secondCardNumber);
+                if (matches == 10)
+                {
+                    MessageBox.Show("Done!");
+                    matches = 0;
+                    ShowAllCards();
+                    EnableAllCards();
+                    FillCardFilenames();
+                    ShuffleCards();
+                    LoadAllCardBacks();
+                }
+                else
+                {
+                    EnableAllVisibleCards();
+                }
+            }
+            else
+            {
+                LoadCardBack(firstCardNumber);
+                LoadCardBack(secondCardNumber);
+                EnableAllVisibleCards();
+            }
+            firstCardNumber = NOT_PICKED_YET;
+            secondCardNumber = NOT_PICKED_YET;
         }
-        #endregion
+
+        #endregion EventHandlers
     }
 }
